@@ -3,7 +3,7 @@ POST http://localhost:3000/auth/signup
 content-type: application/json
 
 {
-    "email": "mike@tech.com",
+    "email": "chaka@tech.com",
     "password": "1234"
 }
 
@@ -12,3 +12,14 @@ GET  http://localhost:3000/auth/3
 
 ### find all user
 GET http://localhost:3000/auth?email=jane@tech.com
+
+###delete a user
+DELETE http://localhost:3000/auth/5
+
+###update a user
+PATCH  http://localhost:3000/auth/4
+content-type: application/json
+
+{
+    "email": "Julia@tech.com"
+}
