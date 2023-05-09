@@ -16,6 +16,13 @@ content-type: application/json
     "password": "1234"
 }
 
+### getting logged in user
+GET http://localhost:3000/auth/loggedinuser
+
+
+### logout user
+POST http://localhost:3000/auth/logOut
+
 ### find user individually
 GET  http://localhost:3000/auth/3
 

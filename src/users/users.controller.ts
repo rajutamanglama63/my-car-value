@@ -1,13 +1,18 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Session, UseGuards, UseInterceptors } from '@nestjs/common';
+import { AuthGuard } from 'src/guards/auth.guard';
 import { Serialize, SerializeInterceptor } from 'src/interceptors/serialize.interceptor';
 import { AuthService } from './auth.service';
+import { CurrentUser } from './decorators/current-user.decorator';
 import { CreateUserDto } from './dtos/create-user-dto';
 import { UpdateUserDto } from './dtos/update-user-dto';
 import { UserDto } from './dtos/user-dto';
+// import { CurrentUserInterceptor } from './interceptors/current-user.interceptor';
+import { User } from './user.entity';
 import { UsersService } from './users.service';
 
 @Controller('auth')
 @Serialize(UserDto)
+// @UseInterceptors(CurrentUserInterceptor) we are commenting it because now we'll use this interceptor globally so that we can apply it to every other controllers
 export class UsersController {
     constructor(
         private usersService: UsersService,
@@ -15,13 +20,37 @@ export class UsersController {
         ) {}
 
     @Post("/signup")
-    createUser(@Body() body: CreateUserDto) {
-        return this.authService.signup(body.email, body.password)
+    async createUser(@Body() body: CreateUserDto, @Session() session: any) {
+        const user = await this.authService.signup(body.email, body.password)
+
+        session.userId = user.id
+
+        return user;
     }
 
     @Post("/signin")
-    signin(@Body() body: CreateUserDto) {
-        return this.authService.signin(body.email, body.password)
+    async signin(@Body() body: CreateUserDto, @Session() session: any) {
+        const user = await this.authService.signin(body.email, body.password)
+
+        session.userId = user.id
+
+        return user;
+    }
+
+    @Get("/loggedinuser")   
+    @UseGuards(AuthGuard)
+    loggedInUser(@CurrentUser() user: User) {
+        return user;
+    }
+
+
+    // loggedInUser(@Session() session: any) {
+    //     return this.usersService.findOne(session.userId)
+    // }
+
+    @Post("/logout")
+    logOut(@Session() session: any) {
+        session.userId = null
     }
 
     // @UseInterceptors(new SerializeInterceptor(UserDto))
