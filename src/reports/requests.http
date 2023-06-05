@@ -1,0 +1,13 @@
+### create report
+POST http://localhost:3000/reports
+content-type: application/json
+
+{
+    "make": "Rock",
+    "model": "Shock",
+    "year": 2021,
+    "lng": 0,
+    "lat": 0,
+    "mileage": 30000,
+    "price": 50000
+}

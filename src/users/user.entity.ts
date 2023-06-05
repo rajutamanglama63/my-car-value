@@ -1,28 +1,40 @@
-import { AfterInsert, AfterRemove, AfterUpdate, Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { Report } from 'src/reports/report.entity';
+import {
+  AfterInsert,
+  AfterRemove,
+  AfterUpdate,
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToMany,
+} from 'typeorm';
 
 @Entity()
 export class User {
-    @PrimaryGeneratedColumn()
-    id: number
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    email: string
+  @Column()
+  email: string;
 
-    @Column()
-    password: string
+  @Column()
+  password: string;
 
-    @AfterInsert()
-    logInsert() {
-        console.log(`Inserted user with ${this.id}`)
-    }
+  @OneToMany(() => Report, (report) => report.user)
+  reports: Report[];
 
-    @AfterUpdate()
-    logUpdate() {
-        console.log(`Updated user with ${this.id}`)
-    }
+  @AfterInsert()
+  logInsert() {
+    console.log(`Inserted user with ${this.id}`);
+  }
 
-    @AfterRemove()
-    logRemove() {
-        console.log(`Removed user with ${this.id}`)
-    }
+  @AfterUpdate()
+  logUpdate() {
+    console.log(`Updated user with ${this.id}`);
+  }
+
+  @AfterRemove()
+  logRemove() {
+    console.log(`Removed user with ${this.id}`);
+  }
 }
