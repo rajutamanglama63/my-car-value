@@ -3,7 +3,7 @@ POST http://localhost:3000/auth/signup
 content-type: application/json
 
 {
-    "email": "sita@med.com",
+    "email": "jhangmu@tech.com",
     "password": "1234"
 }
 
@@ -12,7 +12,7 @@ POST http://localhost:3000/auth/signin
 content-type: application/json
 
 {
-    "email": "sita@med.com",
+    "email": "jhangmu@tech.com",
     "password": "1234"
 }
 
@@ -38,4 +38,18 @@ content-type: application/json
 
 {
     "email": "Julia@tech.com"
+}
+
+###create a report
+POST http://localhost:3000/reports
+content-type: application/json
+
+{
+    "make": "Toyota",
+    "model": "Hilux",
+    "year": 1980,
+    "mileage": 1000000,
+    "lng": 0,
+    "lat": 0,
+    "price": 100000,
 }
